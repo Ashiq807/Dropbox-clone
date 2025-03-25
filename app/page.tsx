@@ -1,103 +1,143 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+import dropbox from "../assets/dropbox-logo-icon-4.png";
+import { image } from "framer-motion/client";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+export default function Home() {
+  const [isDrawing, setIsDrawing] = useState<boolean>(false);
+
+  const { scrollYProgress } = useScroll();
+
+  const centerScale = useTransform(scrollYProgress, [0, 1], [6, 1]);
+
+  const boxTransforms = [
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["-100vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["-100vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["-100vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["-100vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["100vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["-100vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["-100vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["-100vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["100vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]),
+    },
+  ];
+
+  const gridMoveX = useTransform(scrollYProgress, [0, 1], ["-50vw", "0vw"]);
+  const gridMoveY = useTransform(scrollYProgress, [0, 1], ["-50vh", "0vh"]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsDrawing(true), 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  const boxes: string[][] = [
+    ["col-span-3 row-span-4 bg-purple-800"],
+    ["col-span-6 row-span-3 bg-yellow-400"],
+    ["col-span-5 row-span-4 bg-cyan-500"],
+    ["col-span-3 row-span-3 bg-orange-500"],
+    ["col-span-5 row-span-4 bg-orange-600"],
+    ["bg-blue-700", dropbox.src],
+    ["col-span-3 row-span-4 bg-pink-400"],
+    ["col-span-3 row-span-3 bg-green-400"],
+    ["row-span-3 col-span-6 bg-pink-800"],
+  ];
+
+  return (
+    <>
+      <div className="h-[200vh] w-full overflow-y-scroll flex items-center justify-center">
+        <div className="w-[100vw] h-[100vh]">
+          <svg
+            className="top-0 left-0 w-full h-screen absolute"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            {[33.33, 66.66].map((pos, i) => (
+              <motion.line
+                key={`v-${i}`}
+                x1={pos}
+                y1={"0"}
+                x2={pos}
+                y2={"100"}
+                stroke={"blue"}
+                strokeWidth={"0.5"}
+                strokeDasharray={"100"}
+                strokeDashoffset={isDrawing ? "0" : "100"}
+                animate={{ strokeDashoffset: 0 }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                style={{ x: gridMoveX }}
+              />
+            ))}
+
+            {[33.33, 66.66].map((pos, i) => (
+              <motion.line
+                key={`h-${i}`}
+                x1={"0"}
+                y1={pos}
+                x2={"100"}
+                y2={pos}
+                stroke={"blue"}
+                strokeWidth={"0.5"}
+                strokeDasharray={"100"}
+                strokeDashoffset={isDrawing ? "0" : "100"}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                style={{ y: gridMoveY }}
+              />
+            ))}
+          </svg>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <motion.div
+          className="grid grid-cols-17 w-screen h-[100vh] grid-rows-7 gap-2 fixed top-1/2 left-1/2 -translate-x-1/2 bg-transparent -translate-y-1/2 p-3"
+          style={{ transformOrigin: "center center" }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          {boxTransforms.map(({ x, y }, index) => (
+            <motion.div
+              key={index}
+              className={` text-white p-6 flex items-center justify-center ${boxes[index][0]}`}
+              style={{
+                x,
+                y,
+                scale: index === 5 ? centerScale : 1,
+                transformOrigin: "center center",
+              }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
+              <Image src={dropbox} alt="logo" fill />
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </>
   );
 }
