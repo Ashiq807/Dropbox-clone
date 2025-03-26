@@ -2,13 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import dropbox from "../assets/dropbox-logo-icon-4.png";
-import { image } from "framer-motion/client";
+import framwork from "../assets/9608835.png";
+import wave from "../assets/wave-icon-vector-18.png";
+import typography from "../assets/2303451.png";
+import iconography from "../assets/yellow-lock-icon-1.png";
+import color from "../assets/color-wheel-icon-png-0.jpg";
+import img from "../assets/purepng.com-weather-iconsymbolsiconsapple-iosiosios-8-iconsios-8-721522596142qx4ep.png";
+import animation from "../assets/3938603.png";
 
 export default function Home() {
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const { scrollYProgress } = useScroll();
 
@@ -20,35 +29,35 @@ export default function Home() {
       y: useTransform(scrollYProgress, [0, 1], ["-100vh", "0vh"]),
     },
     {
-      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
+      x: useTransform(scrollYProgress, [0, 1], ["-50vw", "0vw"]),
       y: useTransform(scrollYProgress, [0, 1], ["-100vh", "0vh"]),
     },
     {
-      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
+      x: useTransform(scrollYProgress, [0, 1], ["50vw", "0vw"]),
       y: useTransform(scrollYProgress, [0, 1], ["-100vh", "0vh"]),
     },
     {
       x: useTransform(scrollYProgress, [0, 1], ["100vw", "0vw"]),
       y: useTransform(scrollYProgress, [0, 1], ["-100vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["-50vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["0vh", "0vh"]),
+    },
+    {
+      x: useTransform(scrollYProgress, [0, 1], ["100vw", "0vw"]),
+      y: useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]),
     },
     {
       x: useTransform(scrollYProgress, [0, 1], ["-100vw", "0vw"]),
       y: useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]),
     },
     {
-      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
-      y: useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]),
-    },
-    {
-      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
-      y: useTransform(scrollYProgress, [0, 1], ["-100vh", "0vh"]),
-    },
-    {
-      x: useTransform(scrollYProgress, [0, 1], ["0vw", "0vw"]),
-      y: useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]),
-    },
-    {
-      x: useTransform(scrollYProgress, [0, 1], ["100vw", "0vw"]),
+      x: useTransform(scrollYProgress, [0, 1], ["50vw", "0vw"]),
       y: useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]),
     },
   ];
@@ -63,15 +72,15 @@ export default function Home() {
   }, []);
 
   const boxes: string[][] = [
-    ["col-span-3 row-span-4 bg-purple-800"],
-    ["col-span-6 row-span-3 bg-yellow-400"],
-    ["col-span-5 row-span-4 bg-cyan-500"],
-    ["col-span-3 row-span-3 bg-orange-500"],
-    ["col-span-5 row-span-4 bg-orange-600"],
-    ["bg-blue-700", dropbox.src],
-    ["col-span-3 row-span-4 bg-pink-400"],
-    ["col-span-3 row-span-3 bg-green-400"],
-    ["row-span-3 col-span-6 bg-pink-800"],
+    ["col-span-3 row-span-4 bg-purple-800", "Framework"],
+    ["col-span-6 row-span-3 bg-yellow-400", "Voice & Tone"],
+    ["col-span-5 row-span-4 bg-cyan-500", "Logo"],
+    ["col-span-3 row-span-3 bg-orange-500", "Typography"],
+    ["col-span-5 row-span-4 bg-orange-600", "Color"],
+    ["bg-blue-700", ""],
+    ["col-span-3 row-span-4 bg-pink-400", "Motion"],
+    ["col-span-3 row-span-3 bg-green-400", "Iconography"],
+    ["row-span-3 col-span-6 bg-pink-800", "Imagery"],
   ];
 
   return (
@@ -123,17 +132,50 @@ export default function Home() {
         >
           {boxTransforms.map(({ x, y }, index) => (
             <motion.div
-              key={index}
-              className={` text-white p-6 flex items-center justify-center ${boxes[index][0]}`}
+              onClick={() => router.push("/")}
+              key={`motiondiv-${index}`}
+              className={`overflow-hidden flex flex-col justify-between items-start p-2 text-3xl font-medium ${boxes[index][0]}`}
               style={{
                 x,
                 y,
                 scale: index === 5 ? centerScale : 1,
                 transformOrigin: "center center",
+                cursor: "pointer",
+              }}
+              whileHover={{
+                backgroundColor: index === 5 ? "" : "black",
+                color: index === 5 ? "" : "white",
               }}
               transition={{ duration: 1, ease: "easeOut" }}
             >
-              <Image src={dropbox} alt="logo" fill />
+              <h1 className="m-0 p-0">{boxes[index][1]}</h1>
+              <Image
+                src={
+                  index === 5
+                    ? dropbox
+                    : index === 0
+                    ? framwork
+                    : index === 1
+                    ? wave
+                    : index === 2
+                    ? dropbox
+                    : index === 3
+                    ? typography
+                    : index === 7
+                    ? iconography
+                    : index === 4
+                    ? color
+                    : index === 8
+                    ? img
+                    : index === 6
+                    ? animation
+                    : dropbox
+                }
+                width={800}
+                height={200}
+                alt="logo"
+                className="w-50 h-auto mx-auto"
+              />
             </motion.div>
           ))}
         </motion.div>
